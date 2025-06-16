@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model VideoZip {
+  videoUuid      String @id @map("_id") @db.ObjectId
+  path      String
+  status    String
+  images     Image[]
+}
+
+model Image {
+  uuid         String   @id @default(auto()) @map("_id") @db.ObjectId
+  videoZip     VideoZip @relation(fields: [videoUuid], references: [videoUuid])
+  videoUuid String   @unique @db.ObjectId
+  filename     String
+  path         String
+}
