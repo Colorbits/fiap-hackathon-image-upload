@@ -2,15 +2,15 @@ import { Image } from './Image';
 
 export interface VideoZipDto {
   videoUuid: string;
-  path: string;
   status: string;
+  path?: string;
 }
 
 export class VideoZip {
   videoUuid: string;
-  path: string;
   status: string;
-  images: Image[];
+  path?: string;
+  images?: Image[];
   constructor(videoZipDto: VideoZipDto) {
     this.videoUuid = videoZipDto.videoUuid;
     this.path = videoZipDto.path;

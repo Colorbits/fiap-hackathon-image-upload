@@ -1,9 +1,8 @@
 import prisma from '../client';
-import { ImageDto } from '../shared/models/Image';
 import { VideoZipDto } from '../shared/models/VideoZip';
 
 export const createVideoZip = async (videoZipDto: VideoZipDto) => {
-  return prisma.image.create({
+  return prisma.videoZip.create({
     data: {
       videoUuid: videoZipDto.videoUuid,
       path: videoZipDto.path,
@@ -13,7 +12,7 @@ export const createVideoZip = async (videoZipDto: VideoZipDto) => {
 };
 
 export const updateVideoZip = async (videoZipDto: VideoZipDto) => {
-  return prisma.image.update({
+  return prisma.videoZip.update({
     where: {
       videoUuid: videoZipDto.videoUuid,
     },
@@ -24,16 +23,16 @@ export const updateVideoZip = async (videoZipDto: VideoZipDto) => {
   });
 };
 
-export const getVideoZip = async (uuid: string) => {
-  return prisma.image.findFirst({
+export const getVideoZip = async (videoUuid: string) => {
+  return prisma.videoZip.findFirst({
     where: {
-      uuid,
+      videoUuid,
     },
   });
 };
 
-export const getImageByVideoUuid = async (videoUuid: string) => {
-  return prisma.image.findFirst({
+export const getImagesByVideoUuid = async (videoUuid: string) => {
+  return prisma.image.findMany({
     where: {
       videoUuid,
     },
@@ -41,7 +40,7 @@ export const getImageByVideoUuid = async (videoUuid: string) => {
 };
 
 export default {
-  getImageByVideoUuid,
+  getImagesByVideoUuid,
   createVideoZip,
   updateVideoZip,
   getVideoZip,

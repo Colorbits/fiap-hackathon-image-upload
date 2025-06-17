@@ -9,8 +9,8 @@ datasource db {
 
 model VideoZip {
   videoUuid      String @id @map("_id") @db.ObjectId
-  path      String
   status    String
+  path      String?
   images     Image[]
 }
 
