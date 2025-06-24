@@ -14,10 +14,9 @@ export const createVideoZip = async (videoZipDto: VideoZipDto) => {
 export const updateVideoZip = async (videoZipDto: VideoZipDto) => {
   return prisma.videoZip.update({
     where: {
-      videoUuid: videoZipDto.videoUuid,
+      uuid: videoZipDto.uuid,
     },
     data: {
-      path: videoZipDto.path,
       status: videoZipDto.status,
     },
   });
@@ -31,10 +30,11 @@ export const getVideoZip = async (videoUuid: string) => {
   });
 };
 
-export const getImagesByVideoUuid = async (videoUuid: string) => {
+export const getImagesByVideoUuid = async (videoZipUuid: string) => {
+
   return prisma.image.findMany({
     where: {
-      videoUuid,
+      videoZipUuid,
     },
   });
 };

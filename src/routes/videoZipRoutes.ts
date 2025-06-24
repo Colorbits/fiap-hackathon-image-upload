@@ -4,8 +4,8 @@ import { createVideoZip, getImagesByVideoUuid, getVideoZip, updateVideoZip } fro
 const router = Router();
 
 router.post('/', createVideoZip);
-router.get('/:videoUuid', getVideoZip);
 router.put('/:videoUuid', updateVideoZip);
+router.get('/:videoUuid', getVideoZip);
 router.get('/:videoUuid/images', getImagesByVideoUuid);
 
 export default router;

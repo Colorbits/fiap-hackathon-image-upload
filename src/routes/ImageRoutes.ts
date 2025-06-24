@@ -3,7 +3,7 @@ import { createImage, getImage } from '../controllers/imageController';
 
 const router = Router();
 
-router.get('/:id', getImage);
 router.post('/:videoUuid', createImage);
+router.get('/:imageUuid', getImage);
 
 export default router;

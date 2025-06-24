@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as imageService from '../services/imageService';
+import * as videoZipService from '../services/videoZipService';
 import formidable from 'formidable';
 import path from 'path';
 import fs from 'fs';
@@ -17,18 +18,24 @@ export const createImage = async (req: Request, res: Response) => {
       throw err;
     }
 
-    if (!files.image?.length) return res.status(400).json({ error: 'Nenhum arquivo foi enviado.' });
+    if (!files.file?.length) return res.status(400).json({ error: 'Nenhum arquivo foi enviado.' });
 
-    let oldPath = files.image[0]?.filepath;
+    let oldPath = files.file[0]?.filepath;
     let rawData = fs.readFileSync(oldPath);
     const time = Math.floor(Date.now() / 1000);
-    const filename = `${time}-${files.image[0]?.originalFilename}`;
+    const filename = `${time}-${files.file[0]?.originalFilename}`;
     let filePath = path.join(__dirname, '../../uploads') + '/' + filename;
+
+    const videoZip = await videoZipService.getVideoZip(videoUuid);
+
+    if (!videoZip?.uuid) {
+      return res.status(404).json({ error: 'Vídeo não encontrado.' });
+    }
 
     fs.writeFile(filePath, rawData, async (err) => {
       if (err) console.log(err)
       const productImage = await imageService.createImageService({
-        videoUuid,
+        videoZipUuid: videoZip?.uuid,
         filename,
         path: filePath,
       });
@@ -53,8 +60,8 @@ export const getImageByVideoUuid = async (req: Request, res: Response) => {
 
 export const getImage = async (req: Request, res: Response) => {
   try {
-    const { uuid } = req.params;
-    const image = await imageService.getImage(uuid);
+    const { imageUuid } = req.params;
+    const image = await imageService.getImage(imageUuid);
 
     if (!image) {
       return res.status(404).json({ error: 'Imagem não encontrada' });

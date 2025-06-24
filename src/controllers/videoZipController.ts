@@ -19,12 +19,19 @@ export const updateVideoZip = async (req: Request, res: Response) => {
   try {
     const { videoUuid } = req.params;
     const { status } = req.body;
-    const videoZip = await videoZipService.updateVideoZip({
-      videoUuid,
+
+    const videoZip = await videoZipService.getVideoZip(videoUuid);
+
+    if (!videoZip) {
+      return res.status(404).json({ error: 'Arquivo zip do vídeo não encontrado' });
+    }
+    const updatedVideoZip = await videoZipService.updateVideoZip({
+      uuid: videoZip.uuid,
+      videoUuid: videoZip.videoUuid,
       status,
     });
 
-    res.status(200).json(videoZip);
+    res.status(200).json(updatedVideoZip);
   } catch (error) {
     console.error('Error updating video zip:', error);
     res.status(500).json({ error: 'Erro ao atualizar arquivo zip do vídeo' });
@@ -50,7 +57,13 @@ export const getVideoZip = async (req: Request, res: Response) => {
 export const getImagesByVideoUuid = async (req: Request, res: Response) => {
   try {
     const { videoUuid } = req.params;
-    const images = await videoZipService.getImagesByVideoUuid(videoUuid);
+    const videoZip = await videoZipService.getVideoZip(videoUuid);
+
+    if (!videoZip) {
+      return res.status(404).json({ error: 'Arquivo zip do vídeo não encontrado' });
+    }
+
+    const images = await videoZipService.getImagesByVideoUuid(videoZip?.uuid);
 
     res.status(200).json(images);
   } catch (error) {

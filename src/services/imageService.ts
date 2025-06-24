@@ -4,25 +4,25 @@ import { ImageDto } from '../shared/models/Image';
 export const createImageService = async (imageDto: ImageDto) => {
   return prisma.image.create({
     data: {
-      videoUuid: imageDto.videoUuid,
+      videoZipUuid: imageDto.videoZipUuid,
       filename: imageDto.filename,
       path: imageDto.path,
     },
   });
 };
 
-export const getImage = async (uuid: string) => {
+export const getImage = async (imageUuid: string) => {
   return prisma.image.findFirst({
     where: {
-      uuid,
+      uuid: imageUuid,
     },
   });
 };
 
-export const getImageByVideoUuid = async (videoUuid: string) => {
+export const getImageByVideoUuid = async (videoZipUuid: string) => {
   return prisma.image.findFirst({
     where: {
-      videoUuid,
+      videoZipUuid,
     },
   });
 };

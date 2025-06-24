@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: my-lab
+  name: mongo
+  labels:
+    app: mongo
+spec:
+  selector:
+    app: mongo
+  ports:
+  - name: mongo-port
+    port: 27017
+    targetPort: 27017
+    protocol: TCP
+  # Tipo de serviço - LoadBalancer para acesso externo
+  type: LoadBalancer
+  # Define o IP externo se você quiser especificar um endereço fixo
+  # Na maioria dos ambientes locais como Minikube ou Kind, você pode usar
+  # externalIPs:
+  # - 192.168.1.100  # Substitua pelo seu IP da rede local
+  # Ou, se estiver usando Minikube, você pode acessar via IP do Minikube
+  # e a porta NodePort atribuída
+  externalTrafficPolicy: Local # Mantém o IP de origem do cliente
