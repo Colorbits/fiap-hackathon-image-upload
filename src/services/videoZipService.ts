@@ -5,8 +5,7 @@ export const createVideoZip = async (videoZipDto: VideoZipDto) => {
   return prisma.videoZip.create({
     data: {
       videoUuid: videoZipDto.videoUuid,
-      path: videoZipDto.path,
-      status: videoZipDto.status,
+      status: videoZipDto.status
     },
   });
 };

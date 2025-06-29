@@ -1,24 +1,25 @@
 import { Request, Response } from 'express';
 import videoZipService from '../services/videoZipService';
+import { videoZipStatusEnum } from '../shared/models/VideoZip';
 
 export const createVideoZip = async (req: Request, res: Response) => {
   try {
     const { videoUuid } = req.body;
     const videoZip = await videoZipService.createVideoZip({
       videoUuid,
-      status: 'PENDING',
+      status: videoZipStatusEnum.PROCESSING
     });
     res.status(201).json(videoZip);
   } catch (error) {
     console.error('Error creating video zip:', error);
-    res.status(500).json({ error: 'Erro ao criar arquivo zip do vídeo' });
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    res.status(500).json({ error: `Erro ao criar arquivo zip do vídeo: ${errorMessage}` });
   }
 };
 
 export const updateVideoZip = async (req: Request, res: Response) => {
   try {
-    const { videoUuid } = req.params;
-    const { status } = req.body;
+    const { status, videoUuid } = req.body;
 
     const videoZip = await videoZipService.getVideoZip(videoUuid);
 

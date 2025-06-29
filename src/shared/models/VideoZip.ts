@@ -1,16 +1,22 @@
 import { Image } from './Image';
 
+export enum videoZipStatusEnum {
+  PROCESSING = 'PROCESSING',
+  DONE = 'DONE',
+  ERROR = 'ERROR',
+}
+
 export interface VideoZipDto {
   uuid?: string;
   videoUuid: string;
-  status: string;
+  status: videoZipStatusEnum;
   path?: string;
 }
 
 export class VideoZip {
   uuid?: string;
   videoUuid: string;
-  status: string;
+  status: videoZipStatusEnum;
   path?: string;
   images?: Image[];
 
