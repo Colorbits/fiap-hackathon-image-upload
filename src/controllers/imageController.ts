@@ -34,13 +34,13 @@ export const createImage = async (req: Request, res: Response) => {
 
     fs.writeFile(filePath, rawData, async (err) => {
       if (err) console.log(err)
-      const productImage = await imageService.createImageService({
+      const image = await imageService.createImageService({
         videoZipUuid: videoZip?.uuid,
         filename,
         path: filePath,
       });
 
-      res.status(201).json(productImage);
+      res.status(201).json(image);
     })
   } catch (error) {
     res.status(500).json({ error: 'Erro ao criar imagem' });
@@ -50,9 +50,9 @@ export const createImage = async (req: Request, res: Response) => {
 export const getImageByVideoUuid = async (req: Request, res: Response) => {
   try {
     const { videoUuid } = req.params;
-    const productImage = await imageService.getImageByVideoUuid(videoUuid);
+    const image = await imageService.getImageByVideoUuid(videoUuid);
 
-    res.status(200).json(productImage);
+    res.status(200).json(image);
   } catch (error) {
     res.status(500).json({ error: 'Erro ao buscar imagem' });
   }

@@ -1,13 +1,16 @@
 {
-  "name": "fiap-pos-tech-challenge-product-image",
+  "name": "fiap-hackathon-image-upload-service",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon --watch 'src/' --exec 'ts-node src/index.ts' -e ts",
     "build": "rimraf dist && tsc",
+    "start": "node dist/index.js",
     "coverage": "npx jest --coverage --collectCoverageFrom='src/**/*.{js,ts}'",
-    "test": "npx jest --watchAll=false --detectOpenHandles --forceExit --maxWorkers=2"
+    "test": "npx jest --watchAll=false --detectOpenHandles --forceExit --maxWorkers=2",
+    "start:docker": "docker compose --env-file .env  up -d --build",
+    "stop:docker": "docker compose --env-file .env down"
   },
   "keywords": [],
   "author": "",

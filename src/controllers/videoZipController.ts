@@ -4,6 +4,8 @@ import { videoZipStatusEnum } from '../shared/models/VideoZip';
 
 export const createVideoZip = async (req: Request, res: Response) => {
   try {
+    console.log(`createVideoZip ${JSON.stringify(req.body)}`);
+
     const { videoUuid } = req.body;
     const videoZip = await videoZipService.createVideoZip({
       videoUuid,

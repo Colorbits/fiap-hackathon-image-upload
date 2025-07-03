@@ -1,23 +1,45 @@
-FROM node:20-alpine3.20
+FROM node:20-alpine3.20 as builder
 
+# Criando diretório base da aplicação para o build
 WORKDIR /usr/src/app
+
+# Copiando arquivos do projeto para gerar distribuição
+COPY package*.json ./
+
+# Instalando dependências do projeto
+RUN npm ci
+
+# Copiando o restante dos arquivos
+COPY . .
+
+# Compilar o projeto
+RUN npm run build
+
+# Imagem final
+FROM node:20-alpine3.20
 
 # Instalando curl para usar comando de health check.
 RUN apk add curl
 
-# Copiando arquivos do projeto para gerar distribuição. Nem todos os arquivos são copiados, somente os necessários para
-# buildar o projeto. Arquivos ignorados são especificados no arquivo .dockerignore.
-COPY . .
+# Criando diretório base da aplicação
+WORKDIR /usr/src/app
 
-# Instalando dependencias do projeto. Usando `npm ci` ao invés de `npm install` porque ele é otimizado para ambientes
-# de distribuição e não instala as dependencias do ambiente de desenvolvimento, deixando a imagem do container otimizada.
-RUN npm ci
+# Copiar arquivos de build e dependências de produção
+COPY --from=builder /usr/src/app/dist ./dist
+COPY --from=builder /usr/src/app/node_modules ./node_modules
+COPY --from=builder /usr/src/app/package*.json ./
 
-## Buildando o projeto
-RUN npm run build
+# Criar diretórios necessários para arquivos
+RUN mkdir -p /usr/src/app/uploads
 
-# Por padrão o projeto executa na porta 3003.
-EXPOSE 3003
+# Porta da aplicação
+EXPOSE 3001
 
-## Start the server using the production build
+# Copiar os arquivos do prisma
+COPY --from=builder /usr/src/app/prisma ./prisma
+
+# Gerar o cliente Prisma na construção da imagem
+RUN npx prisma generate
+
+# Comando para executar a aplicação
 CMD [ "node", "dist/index.js" ]
