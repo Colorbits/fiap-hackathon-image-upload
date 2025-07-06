@@ -1,12 +1,18 @@
 import prisma from '../client';
 import { ImageDto } from '../shared/models/Image';
+import crypto from 'crypto';
 
 export const createImageService = async (imageDto: ImageDto) => {
+
+  const uuid = crypto.randomUUID();
   return prisma.image.create({
     data: {
+      uuid,
       videoZipUuid: imageDto.videoZipUuid,
       filename: imageDto.filename,
       path: imageDto.path,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
   });
 };

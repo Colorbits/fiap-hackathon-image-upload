@@ -1,11 +1,17 @@
 import prisma from '../client';
 import { VideoZipDto } from '../shared/models/VideoZip';
+import crypto from 'crypto';
 
 export const createVideoZip = async (videoZipDto: VideoZipDto) => {
+  const uuid = crypto.randomUUID();
+
   return prisma.videoZip.create({
     data: {
+      uuid,
+      status: videoZipDto.status,
       videoUuid: videoZipDto.videoUuid,
-      status: videoZipDto.status
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
   });
 };
