@@ -38,10 +38,12 @@ EXPOSE 3001
 # Copiar os arquivos do prisma
 COPY --from=builder /usr/src/app/prisma ./prisma
 
-# Gerar o cliente Prisma na construção da imagem
-RUN npx prisma migrate dev --name init
+# Copiar script de inicialização
+COPY --from=builder /usr/src/app/scripts/start.sh ./scripts/start.sh
+RUN chmod +x ./scripts/start.sh
 
+# Gerar o cliente Prisma na construção da imagem
 RUN npx prisma generate
 
-# Comando para executar a aplicação
-CMD [ "node", "dist/index.js" ]
+# Comando para executar a aplicação com migração
+CMD [ "./scripts/start.sh" ]
