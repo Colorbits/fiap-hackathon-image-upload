@@ -18,8 +18,8 @@ RUN npm run build
 # Imagem final
 FROM node:20-alpine3.20
 
-# Instalando curl para usar comando de health check.
-RUN apk add curl
+# Instalando curl e postgresql-client para health check e conexão com o banco
+RUN apk add curl postgresql-client
 
 # Criando diretório base da aplicação
 WORKDIR /usr/src/app
