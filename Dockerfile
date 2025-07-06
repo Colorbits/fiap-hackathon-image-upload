@@ -39,6 +39,8 @@ EXPOSE 3001
 COPY --from=builder /usr/src/app/prisma ./prisma
 
 # Gerar o cliente Prisma na construção da imagem
+RUN npx prisma migrate dev --name init
+
 RUN npx prisma generate
 
 # Comando para executar a aplicação
