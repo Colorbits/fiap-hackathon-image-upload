@@ -6,7 +6,7 @@
 
 
 ## Introdução
-Este projeto é parte de um sistema de processamento de vídeos que permite extrair frames de imagens a partir de vídeos carregados pelos usuários. O serviço de upload de imagens é responsável por receber e armazenar os frames capturados durante o processamento de vídeo, organizá-los e disponibilizá-los para download em formato ZIP.
+Este projeto é parte de um sistema de processamento de vídeos. O Image Processing Service é responsável por receber e armazenar os frames capturados durante o processamento de vídeo, organizá-los e disponibilizá-los para download em formato ZIP.
 
 O sistema funciona como um microserviço integrado com uma API de processamento de vídeos, onde após a extração dos frames, estes são enviados para este serviço que os armazena de forma organizada. Os usuários podem então visualizar e baixar todas as imagens extraídas em um único arquivo compactado, facilitando o uso posterior.
 
