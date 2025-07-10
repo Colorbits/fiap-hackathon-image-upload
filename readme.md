@@ -3,8 +3,6 @@
 ### Grupo 5 - 9SOAT
  - Gabriel Ferreira Umbelino
 
-
-
 ## Introdução
 Este projeto é parte de um sistema de processamento de vídeos. O Image Processing Service é responsável por receber e armazenar os frames capturados durante o processamento de vídeo, organizá-los e disponibilizá-los para download em formato ZIP.
 

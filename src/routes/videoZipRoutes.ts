@@ -8,5 +8,6 @@ router.put('/:videoUuid', updateVideoZip);
 router.get('/:videoUuid', getVideoZip);
 router.get('/:videoUuid/images', getImagesByVideoUuid);
 router.get('/:videoUuid/zip', getZippedImagesByVideoUuid);
+router.get('/:videoUuid/zip', getZippedImagesByVideoUuid);
 
 export default router;
